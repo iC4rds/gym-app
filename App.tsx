@@ -1,7 +1,7 @@
+import "./app.css"
 import { View, Text, TouchableOpacity } from "react-native";
 import { auth } from "./src/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import "./app.css"
 
 export default function App() {
   const handleTest = async () => {
