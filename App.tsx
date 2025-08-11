@@ -1,20 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View, Text, TouchableOpacity } from "react-native";
+import { auth } from "./src/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import "./app.css"
 
 export default function App() {
+  const handleTest = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, "test@test.com", "123456");
+      console.log("Eingeloggt!");
+    } catch (error) {
+      console.error("Fehler:", error);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View className="flex-1 justify-center items-center bg-gray-100">
+      <TouchableOpacity
+        className="bg-blue-500 p-4 rounded-lg"
+        onPress={handleTest}
+      >
+        <Text className="text-white text-lg font-semibold">
+          Test: Firebase Auth
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

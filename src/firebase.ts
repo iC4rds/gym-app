@@ -3,12 +3,13 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
+  apiKey: "AIzaSyARB6oX1e-paXByUHjAk1EMwKDoqvwsnhs",
+  authDomain: "gym-app-aa128.firebaseapp.com",
+  projectId: "gym-app-aa128",
+  storageBucket: "gym-app-aa128.firebasestorage.app",
+  messagingSenderId: "986232713458",
+  appId: "1:986232713458:web:4939ead5d4078a2e26a06b",
+  measurementId: "G-SPLJJDV8V3"
 };
 
 const app = initializeApp(firebaseConfig);
