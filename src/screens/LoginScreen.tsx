@@ -4,12 +4,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-
-type RootStackParamList = {
-  Login: undefined;
-  Signup: undefined;
-  Home: undefined;
-};
+import { RootStackParamList } from "../types/navigation";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
@@ -18,7 +13,7 @@ export default function LoginScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const navigateToHome = () => {
-    navigation.navigate("Home");
+    navigation.navigate("MainTabs", { screen: "Home" });;
   };
 
   const handleLogin = async () => {
@@ -30,7 +25,7 @@ export default function LoginScreen() {
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigation.navigate("Home");
+      navigation.navigate("MainTabs", { screen: "Home" });;
     } catch (error: any) {
       Alert.alert("Login fehlgeschlagen", error.message);
     } finally {
