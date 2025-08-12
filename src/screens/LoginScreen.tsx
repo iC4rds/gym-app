@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 
 type RootStackParamList = {
   Login: undefined;
+  Signup: undefined;
   Home: undefined;
 };
 
@@ -94,6 +95,14 @@ export default function LoginScreen() {
             >
               <Text className="text-white text-center font-semibold text-base">
                 {isLoading ? 'Wird angemeldet...' : 'Anmelden'}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="items-center mt-6"
+              onPress={() => navigation.navigate("Signup")}
+            >
+              <Text className="text-slate-600 text-base font-medium">
+                Noch kein Konto? Jetzt registrieren
               </Text>
             </TouchableOpacity>
           </View>
