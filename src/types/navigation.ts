@@ -4,6 +4,7 @@ export type RootStackParamList = {
   Signup: undefined;
   Home: undefined;
   Workout: { workoutId?: string };
+  Exercise: { exerciseId?: string };
 };
 
 export type RootTabParamList = {

@@ -1,17 +1,11 @@
 import { View, Text, FlatList, TouchableOpacity, StatusBar } from "react-native";
-import { auth } from "../firebase";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../types/navigation";
+import { workouts } from "../data";
 
 export default function HomeScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-  
-  const workouts = [
-    { id: "1", name: "Push Day", date: "01. Okt 2023", exercises: 8 },
-    { id: "2", name: "Pull Day", date: "02. Okt 2023", exercises: 6 },
-    { id: "3", name: "Leg Day", date: "03. Okt 2023", exercises: 7 },
-  ];
 
   return (
     <>
@@ -43,14 +37,16 @@ export default function HomeScreen() {
                   {item.name}
                 </Text>
                 <View className="bg-slate-200 px-3 py-1 rounded-full">
-                  <Text className="text-xs font-medium text-slate-600">
-                    {item.exercises} Übungen
-                  </Text>
+                  {item.exercises.length > 1 
+                    ? <Text className="text-xs font-medium text-slate-600">
+                        {item.exercises.length} Übungen
+                    </Text>
+                    : <Text className="text-xs font-medium text-slate-600">
+                        {item.exercises.length} Übung
+                    </Text>
+                  }
                 </View>
               </View>
-              <Text className="text-slate-500 font-light">
-                {item.date}
-              </Text>
             </TouchableOpacity>
           )}
         />
@@ -62,7 +58,7 @@ export default function HomeScreen() {
             activeOpacity={0.8}
           >
             <Text className="text-white text-center font-semibold text-base">
-              Neues Workout starten
+              Neues Workout hinzufügen
             </Text>
           </TouchableOpacity>
         </View>

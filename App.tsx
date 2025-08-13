@@ -5,6 +5,7 @@ import type { RootStackParamList, RootTabParamList } from "./src/types/navigatio
 
 import HomeScreen from "./src/screens/HomeScreen";
 import WorkoutScreen from "./src/screens/WorkoutScreen";
+import ExerciseScreen from "./src/screens/ExerciseScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignupScreen from "./src/screens/SignupScreen";
 import ProfileScreen from "./src/screens/ProfileScreen";
@@ -46,7 +47,6 @@ export default function App() {
           component={SignupScreen}
           options={{
             headerTitle: "Registrieren",
-            //headerBackTitleVisible: false,
           }}
         />
 
@@ -59,6 +59,11 @@ export default function App() {
           name="Workout"
           component={WorkoutScreen}
           options={{ headerTitle: "Workout" }}
+        />
+        <Stack.Screen
+          name="Exercise"
+          component={ExerciseScreen}
+          options={{ headerTitle: "Übung" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
