@@ -8,10 +8,6 @@ import { RootStackParamList } from "../types/navigation";
 export default function ProfileScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const navigateToLogin = () => {
-    navigation.navigate("Login");
-  };
-
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -73,7 +69,7 @@ export default function ProfileScreen() {
 
           <TouchableOpacity
             className="bg-red-50 p-5 rounded-2xl border border-red-100"
-            onPress={navigateToLogin}
+            onPress={handleLogout}
             activeOpacity={0.8}
           >
             <Text className="text-red-600 text-center font-semibold text-base">

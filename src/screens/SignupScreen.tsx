@@ -1,14 +1,10 @@
 import { View, Text, TextInput, TouchableOpacity, Alert, StatusBar } from "react-native";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-
-type RootStackParamList = {
-  Login: undefined;
-  Home: undefined;
-};
+import { RootStackParamList } from "../types/navigation";
 
 export default function SignupScreen() {
   const [name, setName] = useState("");
@@ -34,7 +30,8 @@ export default function SignupScreen() {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       Alert.alert("Erfolg", "Konto erfolgreich erstellt");
-      navigation.navigate("Login");
+      await signInWithEmailAndPassword(auth, email, password);
+      navigation.navigate("MainTabs", { screen: "Home" });
     } catch (error: any) {
       Alert.alert("Registrierung fehlgeschlagen", error.message);
     } finally {

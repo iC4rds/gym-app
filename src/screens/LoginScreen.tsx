@@ -12,10 +12,6 @@ export default function LoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
-  const navigateToHome = () => {
-    navigation.navigate("MainTabs", { screen: "Home" });;
-  };
-
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Fehler", "Bitte füllen Sie alle Felder aus");
@@ -25,7 +21,7 @@ export default function LoginScreen() {
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigation.navigate("MainTabs", { screen: "Home" });;
+      navigation.navigate("MainTabs", { screen: "Home" });
     } catch (error: any) {
       Alert.alert("Login fehlgeschlagen", error.message);
     } finally {
@@ -84,7 +80,7 @@ export default function LoginScreen() {
               className={`w-full p-5 rounded-2xl mt-8 ${
                 isLoading ? 'bg-slate-400' : 'bg-slate-900'
               }`}
-              onPress={navigateToHome}
+              onPress={handleLogin}
               disabled={isLoading}
               activeOpacity={0.8}
             >
