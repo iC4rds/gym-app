@@ -2,9 +2,6 @@ import { View, Text, TextInput, TouchableOpacity, Alert, StatusBar } from "react
 import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../types/navigation";
 
 export default function SignupScreen() {
   const [name, setName] = useState("");
@@ -12,8 +9,6 @@ export default function SignupScreen() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const handleSignUp = async () => {
     if (!email || !password || !confirmPassword) {
