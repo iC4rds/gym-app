@@ -1,17 +1,11 @@
 import { View, Text, TouchableOpacity, StatusBar, Alert } from "react-native";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../types/navigation";
 
 export default function ProfileScreen() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigation.navigate("Login");
     } catch (error: any) {
       Alert.alert("Fehler", "Abmeldung fehlgeschlagen");
     }

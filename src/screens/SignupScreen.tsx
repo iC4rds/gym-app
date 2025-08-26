@@ -31,7 +31,6 @@ export default function SignupScreen() {
       await createUserWithEmailAndPassword(auth, email, password);
       Alert.alert("Erfolg", "Konto erfolgreich erstellt");
       await signInWithEmailAndPassword(auth, email, password);
-      navigation.navigate("MainTabs", { screen: "Home" });
     } catch (error: any) {
       Alert.alert("Registrierung fehlgeschlagen", error.message);
     } finally {
