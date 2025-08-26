@@ -1,6 +1,6 @@
 import { View, Text, TextInput, TouchableOpacity, Alert, StatusBar } from "react-native";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useState } from "react";
 
 export default function SignupScreen() {
@@ -23,8 +23,10 @@ export default function SignupScreen() {
 
     setIsLoading(true);
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const { user } = await createUserWithEmailAndPassword(auth, email, password);
       Alert.alert("Erfolg", "Konto erfolgreich erstellt");
+
+      await updateProfile(user, { displayName: name });
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
       Alert.alert("Registrierung fehlgeschlagen", error.message);

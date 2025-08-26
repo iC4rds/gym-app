@@ -17,7 +17,6 @@ export default function ProfileScreen() {
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <View className="flex-1 bg-white">
-        {/* Header */}
         <View className="px-6 pt-16 pb-8">
           <Text className="text-3xl font-light text-slate-900 mb-2">
             Profil
@@ -27,13 +26,12 @@ export default function ProfileScreen() {
           </Text>
         </View>
 
-        {/* Profile Info */}
         <View className="px-6">
           <View className="bg-slate-50 p-6 rounded-2xl mb-8">
             <View className="items-center mb-6">
               <View className="w-20 h-20 bg-slate-900 rounded-full items-center justify-center mb-4">
                 <Text className="text-white text-2xl font-bold">
-                  {user?.email?.charAt(0).toUpperCase()}
+                  {user?.displayName?.charAt(0).toUpperCase()}
                 </Text>
               </View>
               <Text className="text-xl font-medium text-slate-900 mb-1">
