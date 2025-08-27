@@ -51,7 +51,9 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator
+        initialRouteName={user ? "MainTabs" : "Login"}
+      >
         {!user ? (
           <>
             <Stack.Screen
