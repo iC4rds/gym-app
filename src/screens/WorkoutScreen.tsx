@@ -200,7 +200,7 @@ export default function WorkoutScreen({ route }: Props) {
 
         <View className="px-6 pb-6 space-y-4">
           <TouchableOpacity
-            className="bg-slate-900 p-5 rounded-2xl"
+            className="bg-slate-900 p-5 rounded-2xl mb-2"
             onPress={handleAddExercise}
             activeOpacity={0.8}
           >
@@ -210,7 +210,7 @@ export default function WorkoutScreen({ route }: Props) {
           </TouchableOpacity>
           
           <TouchableOpacity
-            className="bg-slate-200 p-5 rounded-2xl"
+            className="bg-slate-200 p-5 rounded-2xl mb-2"
             onPress={handleSaveWorkout}
             activeOpacity={0.8}
           >

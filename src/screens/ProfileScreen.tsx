@@ -44,7 +44,7 @@ export default function ProfileScreen() {
           </View>
 
           <View className="space-y-4 mb-8">
-            <TouchableOpacity className="bg-slate-50 p-5 rounded-2xl flex-row justify-between items-center">
+            <TouchableOpacity className="bg-slate-50 p-5 rounded-2xl flex-row justify-between items-center mb-2">
               <Text className="text-slate-900 font-medium text-base">
                 Trainingsstatistiken
               </Text>

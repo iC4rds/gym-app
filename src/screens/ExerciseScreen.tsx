@@ -207,7 +207,7 @@ export default function ExerciseScreen({ route }: Props) {
 
           <View className="space-y-4 mt-8">
             <TouchableOpacity
-              className="w-full bg-slate-900 p-5 rounded-2xl"
+              className="w-full bg-slate-900 p-5 rounded-2xl mb-2"
               onPress={handleSaveExercise}
               activeOpacity={0.8}
               disabled={loading}
