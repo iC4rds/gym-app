@@ -4,7 +4,7 @@ import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-naviga
 import { RootStackParamList } from "../types/navigation";
 import { useEffect, useState, useCallback } from "react";
 import { db, auth } from "../firebase";
-import { doc, getDoc, collection, setDoc, updateDoc, getDocs, query } from "firebase/firestore";
+import { doc, getDoc, collection, setDoc, updateDoc, getDocs, query, deleteDoc } from "firebase/firestore";
 import { Exercise } from "../types/workout";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Workout">;
@@ -101,6 +101,35 @@ export default function WorkoutScreen({ route }: Props) {
     }
   };
 
+  const handleDeleteWorkout = () => {
+    if (!workoutId) return;
+
+    Alert.alert(
+      "Workout löschen",
+      "Möchtest du dieses Workout wirklich löschen?",
+      [
+        { text: "Abbrechen", style: "cancel" },
+        {
+          text: "Löschen",
+          style: "destructive",
+          onPress: async () => {
+            const userId = auth.currentUser?.uid;
+            if (!userId) return;
+
+            try {
+              const exerciseRef = doc(db, "users", userId, "workouts", workoutId);
+              await deleteDoc(exerciseRef);
+              navigation.goBack();
+            } catch (error) {
+              console.error("Fehler beim Löschen des Workouts:", error);
+              Alert.alert("Fehler", "Workout konnte nicht gelöscht werden.");
+            }
+          }
+        }
+      ]
+    );
+  };
+
   const handleAddExercise = () => {
     navigation.navigate("Exercise", { workoutId: id });
   };
@@ -189,6 +218,18 @@ export default function WorkoutScreen({ route }: Props) {
               Workout speichern
             </Text>
           </TouchableOpacity>
+
+          {workoutId && (
+              <TouchableOpacity
+                className="w-full bg-red-100 p-5 rounded-2xl border border-red-200"
+                onPress={handleDeleteWorkout}
+                activeOpacity={0.8}
+              >
+                <Text className="text-red-600 text-center font-semibold text-base">
+                  Workout löschen
+                </Text>
+              </TouchableOpacity>
+            )}
         </View>
       </View>
     </>
