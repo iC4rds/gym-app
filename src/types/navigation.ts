@@ -3,8 +3,14 @@ export type RootStackParamList = {
   Login: undefined;
   Signup: undefined;
   Home: undefined;
-  Workout: { workoutId?: string };
-  Exercise: { exerciseId?: string };
+  Workout: { 
+    workoutId: string; 
+    isNew?: boolean; 
+  };
+  Exercise: { 
+    workoutId: string; 
+    exerciseId?: string; 
+  };
 };
 
 export type RootTabParamList = {
