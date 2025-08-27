@@ -20,6 +20,7 @@
     "@react-navigation/native-stack": "^7.3.25",
     "autoprefixer": "^10.4.21",
     "expo": "~53.0.17",
+    "expo-dev-client": "~5.2.4",
     "expo-status-bar": "~2.2.3",
     "firebase": "^11.10.0",
     "nativewind": "^4.1.23",
