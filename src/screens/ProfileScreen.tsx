@@ -1,75 +1,156 @@
-import { View, Text, TouchableOpacity, StatusBar, Alert } from "react-native";
-import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+import { View, Text, TouchableOpacity, StatusBar, Alert, TextInput, Switch, ScrollView } from "react-native"
+import { auth, db } from "../firebase"
+import { signOut } from "firebase/auth"
+import { doc, updateDoc } from "firebase/firestore"
+import { useState, useEffect } from "react"
+import { useTheme } from "../context/ThemeContext"
 
 export default function ProfileScreen() {
+  const [expandedSection, setExpandedSection] = useState<string | null>(null)
+  const { theme, toggleTheme } = useTheme()
+  const [isEditingName, setIsEditingName] = useState(false)
+  const [displayName, setDisplayName] = useState("")
+  const [tempName, setTempName] = useState("")
+
+  const user = auth.currentUser
+
+  useEffect(() => {
+    setDisplayName(user?.displayName || "Gym Tracker User")
+  }, [])
+
+  const handleToggleTheme = async () => {
+    try {
+      await toggleTheme()
+    } catch (error) {
+      Alert.alert("Fehler", "Theme konnte nicht gespeichert werden")
+    }
+  }
+
+  const handleSaveName = async () => {
+    if (!tempName.trim()) {
+      Alert.alert("Fehler", "Name darf nicht leer sein")
+      return
+    }
+
+    try {
+      if (user) {
+        await updateDoc(doc(db, "users", user.uid), {
+          name: tempName.trim(),
+        })
+      }
+
+      setDisplayName(tempName.trim())
+      setIsEditingName(false)
+      Alert.alert("Erfolg", "Name wurde aktualisiert")
+    } catch (error) {
+      Alert.alert("Fehler", "Name konnte nicht gespeichert werden")
+    }
+  }
+
+  const toggleSection = (section: string) => {
+    setExpandedSection(expandedSection === section ? null : section)
+  }
+
   const handleLogout = async () => {
     try {
-      await signOut(auth);
+      await signOut(auth)
     } catch (error: any) {
-      Alert.alert("Fehler", "Abmeldung fehlgeschlagen");
+      Alert.alert("Fehler", "Abmeldung fehlgeschlagen")
     }
-  };
+  }
 
-  const user = auth.currentUser;
+  const isDark = theme === "dark"
+  const bgColor = isDark ? "bg-slate-900" : "bg-white"
+  const textColor = isDark ? "text-white" : "text-slate-900"
+  const secondaryTextColor = isDark ? "text-slate-400" : "text-slate-500"
+  const cardBg = isDark ? "bg-slate-800" : "bg-slate-50"
+  const inputBg = isDark ? "bg-slate-700" : "bg-white"
 
   return (
     <>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      <View className="flex-1 bg-white">
+      <StatusBar
+        barStyle={isDark ? "light-content" : "dark-content"}
+        backgroundColor={isDark ? "#0f172a" : "#ffffff"}
+      />
+      <ScrollView className={`flex-1 ${bgColor}`}>
         <View className="px-6 pt-16 pb-8">
-          <Text className="text-3xl font-light text-slate-900 mb-2">
-            Profil
-          </Text>
-          <Text className="text-base text-slate-500 font-light">
-            Deine Kontoinformationen
-          </Text>
+          <Text className={`text-3xl font-light ${textColor} mb-2`}>Profil</Text>
         </View>
 
         <View className="px-6">
-          <View className="bg-slate-50 p-6 rounded-2xl mb-8">
+          <View className={`${cardBg} p-6 rounded-2xl mb-8`}>
             <View className="items-center mb-6">
-              <View className="w-20 h-20 bg-slate-900 rounded-full items-center justify-center mb-4">
-                <Text className="text-white text-2xl font-bold">
-                  {user?.displayName?.charAt(0).toUpperCase()}
+              <View
+                className={`w-20 h-20 ${isDark ? "bg-white" : "bg-slate-900"} rounded-full items-center justify-center mb-4`}
+              >
+                <Text className={`${isDark ? "text-slate-900" : "text-white"} text-2xl font-bold`}>
+                  {displayName.charAt(0).toUpperCase()}
                 </Text>
               </View>
-              <Text className="text-xl font-medium text-slate-900 mb-1">
-                {user?.displayName || "Gym Tracker User"}
-              </Text>
-              <Text className="text-slate-500 font-light">
-                {user?.email}
-              </Text>
+
+              {isEditingName ? (
+                <View className="w-full items-center">
+                  <TextInput
+                    className={`${inputBg} ${textColor} p-3 rounded-xl border border-slate-300 text-center text-lg font-medium mb-3 w-48`}
+                    value={tempName}
+                    onChangeText={setTempName}
+                    placeholder="Name eingeben"
+                    placeholderTextColor={isDark ? "#94a3b8" : "#64748b"}
+                  />
+                  <View className="flex-row space-x-3">
+                    <TouchableOpacity className="bg-green-500 px-4 py-2 rounded-lg" onPress={handleSaveName}>
+                      <Text className="text-white font-medium">Speichern</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      className={`${isDark ? "bg-slate-600" : "bg-slate-300"} px-4 py-2 rounded-lg`}
+                      onPress={() => setIsEditingName(false)}
+                    >
+                      <Text className={textColor}>Abbrechen</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    setTempName(displayName)
+                    setIsEditingName(true)
+                  }}
+                  className="items-center"
+                >
+                  <Text className={`text-xl font-medium ${textColor} mb-1`}>{displayName}</Text>
+                  <Text className={`${secondaryTextColor} font-light text-sm`}>Tippen zum Bearbeiten</Text>
+                </TouchableOpacity>
+              )}
+
+              <Text className={`${secondaryTextColor} font-light mt-2`}>{user?.email}</Text>
             </View>
           </View>
 
-          <View className="space-y-4 mb-8">
-            <TouchableOpacity className="bg-slate-50 p-5 rounded-2xl flex-row justify-between items-center mb-2">
-              <Text className="text-slate-900 font-medium text-base">
-                Trainingsstatistiken
-              </Text>
-              <Text className="text-slate-500">→</Text>
-            </TouchableOpacity>
+          <View className={`${cardBg} mt-2 p-5 rounded-2xl space-y-4`}>
+            <View className="flex-row justify-between items-center">
+              <Text className={`${textColor} font-medium`}>Dark Mode</Text>
+              <Switch
+                value={isDark}
+                onValueChange={handleToggleTheme}
+                trackColor={{ false: "#e2e8f0", true: "#3b82f6" }}
+                thumbColor={isDark ? "#ffffff" : "#f1f5f9"}
+              />
+            </View>
 
-            <TouchableOpacity className="bg-slate-50 p-5 rounded-2xl flex-row justify-between items-center">
-              <Text className="text-slate-900 font-medium text-base">
-                Einstellungen
-              </Text>
-              <Text className="text-slate-500">→</Text>
+            <TouchableOpacity className="py-2 mt-2">
+              <Text className={`${textColor} font-medium`}>App-Version: 1.0.0</Text>
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity
-            className="bg-red-50 p-5 rounded-2xl border border-red-100"
+            className="bg-red-50 mt-6 p-5 rounded-2xl border border-red-100"
             onPress={handleLogout}
             activeOpacity={0.8}
           >
-            <Text className="text-red-600 text-center font-semibold text-base">
-              Abmelden
-            </Text>
+            <Text className="text-red-600 text-center font-semibold text-base">Abmelden</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </>
-  );
+  )
 }
