@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, StatusBar, TextInput, Alert } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, StatusBar, TextInput, Alert } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { NativeStackNavigationProp, NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../types/navigation";
@@ -146,92 +146,84 @@ export default function WorkoutScreen({ route }: Props) {
     <>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
       <View className="flex-1 bg-white">
-        <View className="px-6 pt-16 pb-8">
-          <TextInput
-            className="text-3xl font-light text-slate-900 mb-2"
-            placeholder="Name des Workouts"
-            value={name}
-            onChangeText={setName}
-            placeholderTextColor="#94a3b8"
-          />
-          <Text className="text-base text-slate-500 font-light">
-            {exercises.length} {exercises.length === 1 ? 'Übung' : 'Übungen'}
-          </Text>
-        </View>
-
-        <FlatList
-          data={exercises}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingHorizontal: 24 }}
+        <ScrollView
+          className="flex-1"
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              className="bg-slate-50 p-6 mb-4 rounded-2xl border border-slate-100"
-              onPress={() =>
-                navigation.navigate("Exercise", { workoutId: id, exerciseId: item.id })
-              }
-              activeOpacity={0.7}
-            >
-              <View className="flex-row justify-between items-center">
-                <View className="flex-1">
-                  <Text className="text-xl font-medium text-slate-900 mb-1">
-                    {item.name}
-                  </Text>
-                  <Text className="text-slate-500 font-light">
-                    {item.weight} kg
-                  </Text>
-                </View>
-                <View className="bg-slate-200 px-3 py-1 rounded-full">
-                  <Text className="text-xs font-medium text-slate-600">
-                    {item.sets} × {item.reps}
-                  </Text>
-                </View>
+          contentContainerStyle={{ paddingBottom: 100 }}
+        >
+          <View className="px-6 pt-16 pb-8">
+            <TextInput
+              className="text-3xl font-light text-slate-900 mb-2"
+              placeholder="Name des Workouts"
+              value={name}
+              onChangeText={setName}
+              placeholderTextColor="#94a3b8"
+            />
+            <Text className="text-base text-slate-500 font-light">
+              {exercises.length} {exercises.length === 1 ? "Übung" : "Übungen"}
+            </Text>
+          </View>
+
+          <View className="px-6">
+            {exercises.length === 0 ? (
+              <View className="py-12">
+                <Text className="text-center text-slate-400 font-light">Noch keine Übungen hinzugefügt.</Text>
               </View>
+            ) : (
+              exercises.map((item) => (
+                <TouchableOpacity
+                  key={item.id}
+                  className="bg-slate-50 p-6 mb-4 rounded-2xl border border-slate-100"
+                  onPress={() => navigation.navigate("Exercise", { workoutId: id, exerciseId: item.id })}
+                  activeOpacity={0.7}
+                >
+                  <View className="flex-row justify-between items-center">
+                    <View className="flex-1">
+                      <Text className="text-xl font-medium text-slate-900 mb-1">{item.name}</Text>
+                      <Text className="text-slate-500 font-light">{item.weight} kg</Text>
+                    </View>
+                    <View className="bg-slate-200 px-3 py-1 rounded-full">
+                      <Text className="text-xs font-medium text-slate-600">
+                        {item.sets} × {item.reps}
+                      </Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+              ))
+            )}
+          </View>
+        </ScrollView>
+
+        <TouchableOpacity
+          className="absolute bottom-24 right-6 w-14 h-14 bg-slate-900 rounded-full items-center justify-center shadow-lg"
+          onPress={handleAddExercise}
+          activeOpacity={0.8}
+        >
+          <Text className="text-white text-2xl font-light">+</Text>
+        </TouchableOpacity>
+
+        <View className="absolute bottom-0 left-0 right-0 px-6 py-4 mb-2">
+          <View className="flex-row space-x-3">
+            <TouchableOpacity
+              className="flex-1 bg-slate-900 p-4 rounded-xl"
+              onPress={handleSaveWorkout}
+              activeOpacity={0.8}
+            >
+              <Text className="text-white text-center font-semibold">Workout Speichern</Text>
             </TouchableOpacity>
-          )}
-          ListEmptyComponent={
-            <View className="py-12 px-6">
-              <Text className="text-center text-slate-400 font-light">
-                Noch keine Übungen hinzugefügt.
-              </Text>
-            </View>
-          }
-        />
 
-        <View className="px-6 pb-6 space-y-4">
-          <TouchableOpacity
-            className="bg-slate-900 p-5 rounded-2xl mb-2"
-            onPress={handleAddExercise}
-            activeOpacity={0.8}
-          >
-            <Text className="text-white text-center font-semibold text-base">
-              Übung hinzufügen
-            </Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity
-            className="bg-slate-200 p-5 rounded-2xl mb-2"
-            onPress={handleSaveWorkout}
-            activeOpacity={0.8}
-          >
-            <Text className="text-slate-900 text-center font-semibold text-base">
-              Workout speichern
-            </Text>
-          </TouchableOpacity>
-
-          {workoutId && (
+            {workoutId && (
               <TouchableOpacity
-                className="w-full bg-red-100 p-5 rounded-2xl border border-red-200"
+                className="bg-red-50 p-4 rounded-xl border border-red-200 ml-2"
                 onPress={handleDeleteWorkout}
                 activeOpacity={0.8}
               >
-                <Text className="text-red-600 text-center font-semibold text-base">
-                  Workout löschen
-                </Text>
+                <Text className="text-red-600 text-center font-semibold">Löschen</Text>
               </TouchableOpacity>
             )}
+          </View>
         </View>
       </View>
     </>
-  );
+  )
 }
