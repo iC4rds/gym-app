@@ -33,7 +33,6 @@ export default function SignupScreen() {
         uid: user.uid,
         name,
         email,
-        theme: "light",
         createdAt: new Date(),
       });
 
