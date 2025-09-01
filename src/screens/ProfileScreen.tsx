@@ -143,7 +143,9 @@ export default function ProfileScreen() {
           </View>
 
           <TouchableOpacity
-            className="bg-red-50 mt-6 p-5 rounded-2xl border border-red-100"
+            className={`mt-6 p-5 rounded-2xl border ${
+              theme === "dark" ? "bg-red-900/20 border-red-800" : "bg-red-50 border-red-200"
+            }`}
             onPress={handleLogout}
             activeOpacity={0.8}
           >
