@@ -168,7 +168,7 @@ export default function ExerciseScreen({ route }: Props) {
             />
           </View>
 
-          <View>
+          <View className="mt-4">
             <Text className={`text-sm font-medium ${secondaryTextColor} mb-2 ml-1`}>Gewicht (kg)</Text>
             <TextInput
               className={`w-full ${inputBg} p-5 rounded-2xl ${inputTextColor} text-base font-medium border border-transparent focus:border-slate-900`}
@@ -180,8 +180,8 @@ export default function ExerciseScreen({ route }: Props) {
             />
           </View>
 
-          <View className="flex-row space-x-4">
-            <View className="flex-1">
+          <View className="flex-row space-x-4 mt-4">
+            <View className="flex-1 mr-2">
               <Text className={`text-sm font-medium ${secondaryTextColor} mb-2 ml-1`}>Sätze</Text>
               <TextInput
                 className={`w-full ${inputBg} p-5 rounded-2xl ${inputTextColor} text-base font-medium border border-transparent focus:border-slate-900`}
@@ -193,11 +193,11 @@ export default function ExerciseScreen({ route }: Props) {
               />
             </View>
 
-            <View className="flex-1">
+            <View className="flex-1 ml-2">
               <Text className={`text-sm font-medium ${secondaryTextColor} mb-2 ml-1`}>Wiederholungen</Text>
               <TextInput
                 className={`w-full ${inputBg} p-5 rounded-2xl ${inputTextColor} text-base font-medium border border-transparent focus:border-slate-900`}
-                placeholder="12"
+                placeholder="10"
                 placeholderTextColor={placeholderColor}
                 value={reps}
                 onChangeText={setReps}
