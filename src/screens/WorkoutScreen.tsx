@@ -228,17 +228,21 @@ export default function WorkoutScreen({ route }: Props) {
               </Text>
             </TouchableOpacity>
 
-            {workoutId && (
-              <TouchableOpacity
-                className={`p-4 rounded-xl border ${
-                  theme === "dark" ? "bg-red-900/20 border-red-800 ml-2" : "bg-red-50 border-red-200 ml-2"
-                }`}
-                onPress={handleDeleteWorkout}
-                activeOpacity={0.8}
-              >
-                <Text className="text-red-600 text-center font-semibold">Löschen</Text>
-              </TouchableOpacity>
-            )}
+            <View className="bg-slate-900 ml-2 rounded-xl overflow-hidden">
+              {workoutId && (
+                <TouchableOpacity
+                  className={`p-4 rounded-xl border relative overflow-hidden ml- ${
+                    theme === "dark" 
+                      ? "bg-red-900/20 border-red-800"
+                      : "bg-red-50 border-red-200"
+                  }`}
+                  onPress={handleDeleteWorkout}
+                  activeOpacity={0.8}
+                >
+                  <Text className="text-red-600 text-center font-semibold">Löschen</Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
         </View>
       </View>
